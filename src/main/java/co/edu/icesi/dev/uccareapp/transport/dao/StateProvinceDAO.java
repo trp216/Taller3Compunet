@@ -77,7 +77,7 @@ public class StateProvinceDAO implements IStateProvinceDAO{
 //	}
 	
 	public List<Stateprovince> getStateprovinceByTerritoryId2(Integer id) {
-		String jpql = "SELECT sp FROM Stateprovince sp WHERE sp.territoryid =: '"+id+"'";
+		String jpql = "SELECT sp FROM Stateprovince sp WHERE sp.territoryid = '"+id+"'";
 		return entityManager.createQuery(jpql,Stateprovince.class).getResultList();
 	}
 	
