@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.stereotype.Service;
 
+import co.edu.icesi.dev.uccareapp.transport.dao.CountryRegionDAO;
+import co.edu.icesi.dev.uccareapp.transport.dao.SalesTerritoryDAO;
+import co.edu.icesi.dev.uccareapp.transport.dao.StateProvinceDAO;
 import co.edu.icesi.dev.uccareapp.transport.exception.ElementNotFoundException;
 import co.edu.icesi.dev.uccareapp.transport.exception.FailedValidationsException;
 import co.edu.icesi.dev.uccareapp.transport.model.person.Address;
@@ -22,17 +25,34 @@ import co.edu.icesi.dev.uccareapp.transport.repositories.StateprovinceRepository
 @Service
 public class StateprovinceServiceImp implements StateprovinceService{
 	
-	private StateprovinceRepository repo;
-	
-	private SalesTerritoryRepository stRepo;
-	private CountryregionRepository crRepo;
-	
+//	private StateprovinceRepository repo;
+//	
+//	private SalesTerritoryRepository stRepo;
+//	private CountryregionRepository crRepo;
+//	
+//	
+//	@Autowired
+//	public StateprovinceServiceImp(StateprovinceRepository repo, SalesTerritoryRepository stRepo, CountryregionRepository crRepo) {
+//		this.repo = repo;
+//		this.stRepo = stRepo;
+//		this.crRepo = crRepo;
+//	}
+
+	@Autowired
+	private StateProvinceDAO spDAO;
 	
 	@Autowired
-	public StateprovinceServiceImp(StateprovinceRepository repo, SalesTerritoryRepository stRepo, CountryregionRepository crRepo) {
-		this.repo = repo;
-		this.stRepo = stRepo;
-		this.crRepo = crRepo;
+	private SalesTerritoryDAO stDAO;
+	
+	@Autowired
+	private CountryRegionDAO crDAO;
+	
+	@Autowired
+	public StateprovinceServiceImp(StateProvinceDAO spDAO, SalesTerritoryDAO stDAO, CountryRegionDAO crDAO) {
+		super();
+		this.spDAO = spDAO;
+		this.stDAO = stDAO;
+		this.crDAO = crDAO;
 	}
 
 
@@ -53,12 +73,12 @@ public class StateprovinceServiceImp implements StateprovinceService{
 			throw new FailedValidationsException("El nombre del estado-provincia debe tener al menos 5 caracteres");
 		}
 		else {
-			Optional<Salesterritory> opt1 = this.stRepo.findById(salesterritoryid);
-			if(opt1.isPresent()) {
-				Optional<Countryregion> opt2 = this.crRepo.findById(countryregionid);
-				if(opt2.isPresent()) {
-					stateProvince.setCountryregion(opt2.get());
-					result = this.repo.save(stateProvince);
+			Salesterritory opt1 = stDAO.findById(salesterritoryid);
+			if(opt1!=null) {
+				Countryregion opt2 = crDAO.findById(countryregionid);
+				if(opt2!=null) {
+					stateProvince.setCountryregion(opt2);
+					result = spDAO.save(stateProvince);
 				}
 				else {
 					throw new ElementNotFoundException("El pais-region no existe");
@@ -76,13 +96,15 @@ public class StateprovinceServiceImp implements StateprovinceService{
 
 
 
+
+
 	@Override
 	@Transactional
 	public Stateprovince editStateprovince(Stateprovince stateProvince, Integer salesterritoryid, Integer countryregionid) throws FailedValidationsException, ElementNotFoundException {
 		Stateprovince result = null;
 		if(stateProvince.getStateprovinceid()!=null) {
-			Optional<Stateprovince> old = repo.findById(stateProvince.getStateprovinceid());
-			if(old.isPresent()) {
+			Stateprovince old = spDAO.findById(stateProvince.getStateprovinceid());
+			if(old!=null) {
 				result = saveStateprovince(stateProvince,salesterritoryid,countryregionid);
 			}
 		}
@@ -91,19 +113,19 @@ public class StateprovinceServiceImp implements StateprovinceService{
 		return result;
 	}
 
-	public Optional<Stateprovince> findById(Integer id) {
-		return repo.findById(id);
+	public Stateprovince findById(Integer id) {
+		return spDAO.findById(id);
 	}
 	
 	public Iterable<Stateprovince> findAll() {
-		return repo.findAll();
+		return spDAO.findAll();
 	}
 	
 	@Override
 	@Transactional
 	public void save(Stateprovince sp) {
 
-		repo.save(sp);
+		spDAO.save(sp);
 	}
 
 	@Transactional
@@ -111,11 +133,11 @@ public class StateprovinceServiceImp implements StateprovinceService{
 		Stateprovince actual = null;
 		
 		if(sp.getStateprovinceid() != null) {
-			Optional<Stateprovince> optional = repo.findById(sp.getStateprovinceid());
-			if(optional.isPresent()) {
-				sp.setCountryregion(crRepo.findById(countryregionid).get());
-				save(sp);
-				actual = findById(sp.getStateprovinceid()).get();
+			Stateprovince optional = spDAO.findById(sp.getStateprovinceid());
+			if(optional!=null) {
+				sp.setCountryregion(crDAO.findById(countryregionid));
+//				save(sp);
+				actual = spDAO.update(sp);
 			}
 		}
 		

@@ -23,15 +23,15 @@ public class StateProvinceDAO implements IStateProvinceDAO{
 	private EntityManager entityManager;
 	
 	@Override
-	public void save(Stateprovince entity) {
+	public Stateprovince save(Stateprovince entity) {
 		entityManager.persist(entity);		
-		
+		return entity;
 	}
 
 	@Override
-	public void update(Stateprovince entity) {
+	public Stateprovince update(Stateprovince entity) {
 		entityManager.merge(entity);		
-		
+		return entity;
 	}
 
 	@Override

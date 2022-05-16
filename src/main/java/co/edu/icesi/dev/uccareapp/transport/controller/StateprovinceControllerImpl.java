@@ -74,7 +74,7 @@ public class StateprovinceControllerImpl {
 	
 	@GetMapping("/stateprovince/edit/{id}")
 	public String showEditProvince(@PathVariable("id") Integer id,Model model) {
-		Stateprovince stateprovince = spService.findById(id).get();
+		Stateprovince stateprovince = spService.findById(id);
 		if (stateprovince == null)
 			throw new IllegalArgumentException("Invalid country Id:" + id);
 		
