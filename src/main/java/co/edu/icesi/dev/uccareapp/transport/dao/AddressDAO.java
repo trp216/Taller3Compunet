@@ -86,4 +86,8 @@ public class AddressDAO implements IAddressDAO{
 		String jpql = "SELECT a FROM Address a WHERE a.stateprovince.stateprovinceid = '" +id +"'";
 		return entityManager.createQuery(jpql,Address.class).getResultList();
 	}
+	
+	//Mostrar el listado de las direcciones para 
+	//las direcciones que tienen al menos dos
+	//encabezados de órdenes de venta.
 }
