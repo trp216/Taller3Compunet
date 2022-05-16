@@ -10,7 +10,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import co.edu.icesi.dev.uccareapp.transport.model.person.Stateprovince;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salestaxrate;
+import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesterritory;
 
 @Repository
 @Transactional
@@ -81,5 +83,24 @@ public class SalesTaxRateDAO implements ISalesTaxRateDAO{
 		String jpql = "SELECT str FROM Salestaxrate str WHERE str.name = '"+ name + "'";
 		return entityManager.createQuery(jpql,Salestaxrate.class).getResultList();
 	}
+	
+	//Lo(s) estados-provincia (s) con sus datos y cantidad de direcciones (que pertenecen
+		//a un territorio), ordenados por nombre. Recibe como parámetro un territorio de venta
+		//y retorna todos los estados-provincia que cumplen con tener al menos una tasa
+		//impositiva de ventas.
+		public List<Stateprovince> getStateProvinceAndAddresses(Salesterritory st) {
+//			String jpql = "SELECT DISTINCT stateprovince, COUNT(stateprovince.addressess) "
+//					+ "FROM Salestaxrate "
+//					+ "WHERE stateprovince.territoryid = '" + st.getTerritoryid() + "' "
+//							+ "ORDER BY stateprovince.name";
+			
+			String jpql = "SELECT DISTINCT stateprovince "
+					+ "FROM Salestaxrate "
+					+ "ORDER BY stateprovince.name";
+							
+			
+//			String jpql = "SELECT sp FROM Stateprovince sp WHERE sp.name = '"+name+"'";
+			return entityManager.createQuery(jpql,Stateprovince.class).getResultList();
+		}
 }
 

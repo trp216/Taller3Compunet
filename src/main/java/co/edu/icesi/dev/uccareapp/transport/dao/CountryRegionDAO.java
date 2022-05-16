@@ -20,15 +20,16 @@ public class CountryRegionDAO implements ICountryRegionDAO{
 	private EntityManager entityManager;
 	
 	@Override
-	public void save(Countryregion entity) {
+	public Countryregion save(Countryregion entity) {
 		entityManager.persist(entity);		
+		return entity;
 		
 	}
 
 	@Override
-	public void update(Countryregion entity) {
+	public Countryregion update(Countryregion entity) {
 		entityManager.merge(entity);		
-		
+		return entity;
 	}
 
 	@Override

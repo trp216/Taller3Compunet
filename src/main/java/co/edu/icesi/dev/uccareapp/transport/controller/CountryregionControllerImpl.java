@@ -60,7 +60,7 @@ public class CountryregionControllerImpl {
 	
 	@GetMapping("/countryregion/edit/{id}")
 	public String showEditCountryregion(@PathVariable("id") Integer id,Model model) {
-		Countryregion countryregion = crService.findById(id).get();
+		Countryregion countryregion = crService.findById(id);
 		
 		if (countryregion == null)
 			throw new IllegalArgumentException("Invalid country Id:" + id);

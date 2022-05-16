@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.icesi.dev.uccareapp.transport.model.person.Stateprovince;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salestaxrate;
+import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesterritory;
 
 @Repository
 @Transactional
@@ -95,4 +96,6 @@ public class StateProvinceDAO implements IStateProvinceDAO{
 		String jpql = "SELECT sp FROM Stateprovince sp WHERE sp.name = '"+name+"'";
 		return entityManager.createQuery(jpql,Stateprovince.class).getResultList();
 	}
+	
+	
 }

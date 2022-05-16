@@ -13,4 +13,6 @@ public interface CountryregionService {
 	public Iterable<Countryregion> findAll();
 	
 	public void save(Countryregion cr);
+
+	Countryregion findById(Integer id);
 }

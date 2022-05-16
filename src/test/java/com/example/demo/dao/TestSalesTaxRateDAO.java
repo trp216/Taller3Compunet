@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -11,6 +12,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,6 +26,8 @@ import co.edu.icesi.dev.uccareapp.transport.dao.StateProvinceDAO;
 import co.edu.icesi.dev.uccareapp.transport.model.person.Address;
 import co.edu.icesi.dev.uccareapp.transport.model.person.Stateprovince;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salestaxrate;
+import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesterritory;
+import co.edu.icesi.dev.uccareapp.transport.repositories.SalesTerritoryRepository;
 
 
 @ContextConfiguration(classes = Application.class)
@@ -47,10 +51,30 @@ public class TestSalesTaxRateDAO {
     	str.setTaxrate(new BigDecimal(15));
 	}
 	
+	private SalesTerritoryRepository stRepo;	
+	
+	private Salesterritory st;
+	
+	@Autowired
+	public TestSalesTaxRateDAO(SalesTerritoryRepository stRepo) {
+		this.stRepo = stRepo;
+	}
+	
+	void initSalesterritory() {
+		st = new Salesterritory();
+    	st.setName("Zona del pacifico");
+    	
+    	stRepo.save(st);
+    	
+	}
+	
 	void initStateprovince() {
 		sp1 = new Stateprovince();
     	sp1.setName("Valle del Cauca");
     	sp1.setStateprovincecode("12345");
+    	
+    	initSalesterritory(); 
+    	sp1.setTerritoryid(st.getTerritoryid());
     	
     	spDAO.save(sp1);
     	
@@ -150,5 +174,21 @@ public class TestSalesTaxRateDAO {
     	
     	List<Salestaxrate> results = strDAO.getSalestaxrateByStateprovince2(sp1.getStateprovinceid());
 		assertThat(results.size(), equalTo(2));
+	}
+	
+	@Test
+	@Order(1)
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	void getStateProvinceAndAddressesTest() {
+		initStateprovince();
+		
+		List<Stateprovince> results = strDAO.getStateProvinceAndAddresses(st);
+		System.out.println(results.size());
+		
+		for (Stateprovince i : results) {
+			assertNotNull(i);
+			//assertEquals(i.getTerritoryid(),st.getTerritoryid());
+			//assertEquals(sp1.getStateprovinceid(), i.getStateprovinceid());
+		}
 	}
 }
