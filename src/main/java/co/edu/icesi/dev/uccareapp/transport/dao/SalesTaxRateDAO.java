@@ -88,19 +88,22 @@ public class SalesTaxRateDAO implements ISalesTaxRateDAO{
 		//a un territorio), ordenados por nombre. Recibe como parámetro un territorio de venta
 		//y retorna todos los estados-provincia que cumplen con tener al menos una tasa
 		//impositiva de ventas.
-		public List<Stateprovince> getStateProvinceAndAddresses(Salesterritory st) {
-//			String jpql = "SELECT DISTINCT stateprovince, COUNT(stateprovince.addressess) "
-//					+ "FROM Salestaxrate "
-//					+ "WHERE stateprovince.territoryid = '" + st.getTerritoryid() + "' "
-//							+ "ORDER BY stateprovince.name";
+		public List<Object[]> getStateProvinceAndAddresses(Salesterritory st) {
 			
-			String jpql = "SELECT DISTINCT stateprovince "
-					+ "FROM Salestaxrate "
-					+ "ORDER BY stateprovince.name";
+			
+			String jpql = "SELECT sp.name, COUNT(a.addressid) "
+					+ "FROM Stateprovince sp, Address a "
+					+ "WHERE sp.stateprovinceid = a.stateprovince"
+					+ " AND sp.territoryid = " + st.getTerritoryid()   
+					//+ " LEFT JOIN Salestaxrate str ON sp.stateprovinceid = str.stateprovince"
+					//SELECT stateprovince FROM Salestaxrate WHERE Salestaxrate.stateprovince = sp.stateprovinceid
+					+ " AND EXISTS(SELECT str.stateprovince FROM Salestaxrate str WHERE str.stateprovince = sp.stateprovinceid)"
+					+ " GROUP BY sp.stateprovinceid "
+					+ "ORDER BY sp.name";
 							
 			
 //			String jpql = "SELECT sp FROM Stateprovince sp WHERE sp.name = '"+name+"'";
-			return entityManager.createQuery(jpql,Stateprovince.class).getResultList();
+			return entityManager.createQuery(jpql,Object[].class).getResultList();
 		}
 }
 

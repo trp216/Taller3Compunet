@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.icesi.dev.uccareapp.transport.Application;
 import co.edu.icesi.dev.uccareapp.transport.dao.SalesTaxRateDAO;
+import co.edu.icesi.dev.uccareapp.transport.dao.SalesTerritoryDAO;
 import co.edu.icesi.dev.uccareapp.transport.dao.StateProvinceDAO;
 import co.edu.icesi.dev.uccareapp.transport.model.person.Address;
 import co.edu.icesi.dev.uccareapp.transport.model.person.Stateprovince;
@@ -53,6 +54,9 @@ public class TestSalesTaxRateDAO {
 	
 	private SalesTerritoryRepository stRepo;	
 	
+	@Autowired
+	private SalesTerritoryDAO stDAO;
+	
 	private Salesterritory st;
 	
 	@Autowired
@@ -65,7 +69,7 @@ public class TestSalesTaxRateDAO {
     	st.setName("Zona del pacifico");
     	
     	stRepo.save(st);
-    	
+    	stDAO.save(st);
 	}
 	
 	void initStateprovince() {
@@ -75,6 +79,7 @@ public class TestSalesTaxRateDAO {
     	
     	initSalesterritory(); 
     	sp1.setTerritoryid(st.getTerritoryid());
+    	//System.out.println(sp1.getTerritoryid());
     	
     	spDAO.save(sp1);
     	
@@ -176,19 +181,24 @@ public class TestSalesTaxRateDAO {
 		assertThat(results.size(), equalTo(2));
 	}
 	
-//	@Test
-//	@Order(1)
-//	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-//	void getStateProvinceAndAddressesTest() {
-//		initStateprovince();
-//		
-//		List<Stateprovince> results = strDAO.getStateProvinceAndAddresses(st);
-//		System.out.println(results.size());
-//		
-//		for (Stateprovince i : results) {
-//			assertNotNull(i);
-//			//assertEquals(i.getTerritoryid(),st.getTerritoryid());
-//			//assertEquals(sp1.getStateprovinceid(), i.getStateprovinceid());
-//		}
-//	}
+	@Test
+	@Order(1)
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	void getStateProvinceAndAddressesTest() {
+		initStateprovince();
+		
+		List<Object[]> results = strDAO.getStateProvinceAndAddresses(st);
+		//System.out.println(results.size());
+		
+			//System.out.println("CRIATURITA DE RUBI");
+		for (Object[] i : results) {
+			assertNotNull(i);
+			String name = i[0].toString();
+			System.out.println(">>>"+name);
+			assertEquals(name,"Valle del Cauca");
+			//System.out.println("i en 0 "+ i[0]);
+			//assertEquals(i.getTerritoryid(),st.getTerritoryid());
+			//assertEquals(sp1.getStateprovinceid(), i.getStateprovinceid());
+		}
+	}
 }
