@@ -68,7 +68,7 @@ public class TaxControllerImpl {
 	
 	@GetMapping("/tax/edit/{id}")
 	public String showEditTax(@PathVariable("id") Integer id,Model model) {
-		Salestaxrate salestaxrate = strService.findById(id).get();
+		Salestaxrate salestaxrate = strService.findById(id);
 		if (salestaxrate == null)
 			throw new IllegalArgumentException("Invalid sales Id:" + id);
 		

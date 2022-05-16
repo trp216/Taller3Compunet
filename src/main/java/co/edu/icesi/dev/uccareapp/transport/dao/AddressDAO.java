@@ -28,16 +28,16 @@ public class AddressDAO implements IAddressDAO{
 	
 	@Override
 	//@Transactional
-	public void save(Address entity) {
+	public Address save(Address entity) {
 		entityManager.persist(entity);		
-		
+		return entity;
 	}
 
 	@Override
 	//@Transactional
-	public void update(Address entity) {
+	public Address update(Address entity) {
 		entityManager.merge(entity);		
-		
+		return entity;
 	}
 
 	@Override

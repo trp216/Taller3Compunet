@@ -7,8 +7,8 @@ import co.edu.icesi.dev.uccareapp.transport.model.person.Address;
 
 public interface IAddressDAO {
 	
-	public void save(Address entity);
-	public void update(Address entity);
+	public Address save(Address entity);
+	public Address update(Address entity);
 	public void delete(Address entity);
 	public Address findById(Integer codigo);
 	public List<Address> findAll();

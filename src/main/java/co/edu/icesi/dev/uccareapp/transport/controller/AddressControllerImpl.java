@@ -67,7 +67,7 @@ public class AddressControllerImpl {
 	
 	@GetMapping("/address/edit/{id}")
 	public String showEditAddress(@PathVariable("id") Integer id,Model model) {
-		Address address = addressService.findById(id).get();
+		Address address = addressService.findById(id);
 		if (address == null)
 			throw new IllegalArgumentException("Invalid country Id:" + id);
 		

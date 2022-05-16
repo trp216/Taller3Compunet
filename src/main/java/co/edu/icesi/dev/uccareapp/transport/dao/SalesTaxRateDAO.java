@@ -29,9 +29,9 @@ public class SalesTaxRateDAO implements ISalesTaxRateDAO{
 	}
 
 	@Override
-	public void update(Salestaxrate entity) {
+	public Salestaxrate update(Salestaxrate entity) {
 		entityManager.merge(entity);		
-		
+		return entity;
 	}
 
 	@Override

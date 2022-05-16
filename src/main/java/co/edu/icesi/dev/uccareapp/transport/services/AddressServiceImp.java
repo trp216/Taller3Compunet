@@ -7,6 +7,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import co.edu.icesi.dev.uccareapp.transport.dao.AddressDAO;
+import co.edu.icesi.dev.uccareapp.transport.dao.StateProvinceDAO;
 import co.edu.icesi.dev.uccareapp.transport.exception.ElementNotFoundException;
 import co.edu.icesi.dev.uccareapp.transport.exception.FailedValidationsException;
 import co.edu.icesi.dev.uccareapp.transport.model.person.Address;
@@ -20,16 +22,28 @@ import co.edu.icesi.dev.uccareapp.transport.repositories.StateprovinceRepository
 @Service
 public class AddressServiceImp implements AddressService{
 	
-	private AddressRepository repo;
+	//private AddressRepository repo;
 	
-	private StateprovinceRepository spRepo;
+	//private StateprovinceRepository spRepo;
 	
 	@Autowired
-	public AddressServiceImp(AddressRepository repo, StateprovinceRepository spRepo) {
+	private AddressDAO addressDAO;
+	
+	@Autowired
+	private StateProvinceDAO spDAO;
+	
+	@Autowired
+	public AddressServiceImp(AddressDAO addressDAO, StateProvinceDAO spDAO) {
 		super();
-		this.repo = repo;
-		this.spRepo = spRepo;
+		this.addressDAO = addressDAO;
+		this.spDAO = spDAO;
 	}
+	
+//	public AddressServiceImp(AddressRepository repo, StateprovinceRepository spRepo) {
+//		super();
+//		this.repo = repo;
+//		this.spRepo = spRepo;
+//	}
 
 	@Override
 	public Address saveAddress(int stateProvinceId, Address address) throws FailedValidationsException, ElementNotFoundException {
@@ -45,10 +59,12 @@ public class AddressServiceImp implements AddressService{
 			throw new FailedValidationsException("El codigo postal debe tener seis digitos");
 		}
 		else {
-			Optional<Stateprovince> opt1 = this.spRepo.findById(stateProvinceId);
-			if(opt1.isPresent()) {
-				address.setStateprovince(opt1.get());
-				result = this.repo.save(address);
+			//Optional<Stateprovince> opt1 = this.spRepo.findById(stateProvinceId);
+			Stateprovince opt1 = spDAO.findById(stateProvinceId);
+			if(opt1!=null) {
+				address.setStateprovince(opt1);
+				//result = this.repo.save(address);
+				result = addressDAO.save(address);
 			}
 			else {
 				throw new ElementNotFoundException("El estado-provincia no existe");
@@ -58,35 +74,43 @@ public class AddressServiceImp implements AddressService{
 		return result;
 	}
 
+	
+
 	@Override
 	@Transactional
 	public Address editAddress(int stateProvinceId, Address address) throws FailedValidationsException, ElementNotFoundException{
 		Address result = null;
 		
 		if(address.getAddressid()!=null) {
-			Optional<Address> old = repo.findById(address.getAddressid());
-			if(old.isPresent()) {
-				result = saveAddress(stateProvinceId, address);
+//			Optional<Address> old = repo.findById(address.getAddressid());
+			Address old = addressDAO.findById(address.getAddressid());
+			if(old!=null) {
+				//result = saveAddress(stateProvinceId, address);
+				result = addressDAO.update(address);
 			}
+			
 		}
 		
 		return result;
 	}
 	
-	public Optional<Address> findById(Integer id) {
-		return repo.findById(id);
+	public Address findById(Integer id) {
+		return addressDAO.findById(id);
+		//return repo.findById(id);
 	}
 
 	@Override
 	public Iterable<Address> findAll() {
-		return repo.findAll();
+	//	return repo.findAll();
+		return addressDAO.findAll();
 	}
 	
 	@Override
 	@Transactional
 	public void save(Address address) {
 
-		repo.save(address);
+		//repo.save(address);
+		addressDAO.save(address);
 		
 	}
 	
@@ -95,11 +119,13 @@ public class AddressServiceImp implements AddressService{
 		Address actual = null;
 		
 		if(address.getAddressid() != null) {
-			Optional<Address> optional = repo.findById(address.getAddressid());
-			if(optional.isPresent()) {
-				address.setStateprovince(spRepo.findById(stateprovinceid).get());
-				save(address);
-				actual = findById(address.getAddressid()).get();
+//			Optional<Address> optional = repo.findById(address.getAddressid());
+			Address optional = addressDAO.findById(address.getAddressid());
+			if(optional!=null) {
+				address.setStateprovince(spDAO.findById(stateprovinceid));
+//				//save(address);
+//				actual = findById(address.getAddressid()).get();
+				actual = addressDAO.update(address);
 			}
 		}
 		System.out.println(actual.toString());

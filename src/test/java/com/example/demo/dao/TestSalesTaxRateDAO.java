@@ -176,19 +176,19 @@ public class TestSalesTaxRateDAO {
 		assertThat(results.size(), equalTo(2));
 	}
 	
-	@Test
-	@Order(1)
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-	void getStateProvinceAndAddressesTest() {
-		initStateprovince();
-		
-		List<Stateprovince> results = strDAO.getStateProvinceAndAddresses(st);
-		System.out.println(results.size());
-		
-		for (Stateprovince i : results) {
-			assertNotNull(i);
-			//assertEquals(i.getTerritoryid(),st.getTerritoryid());
-			//assertEquals(sp1.getStateprovinceid(), i.getStateprovinceid());
-		}
-	}
+//	@Test
+//	@Order(1)
+//	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+//	void getStateProvinceAndAddressesTest() {
+//		initStateprovince();
+//		
+//		List<Stateprovince> results = strDAO.getStateProvinceAndAddresses(st);
+//		System.out.println(results.size());
+//		
+//		for (Stateprovince i : results) {
+//			assertNotNull(i);
+//			//assertEquals(i.getTerritoryid(),st.getTerritoryid());
+//			//assertEquals(sp1.getStateprovinceid(), i.getStateprovinceid());
+//		}
+//	}
 }

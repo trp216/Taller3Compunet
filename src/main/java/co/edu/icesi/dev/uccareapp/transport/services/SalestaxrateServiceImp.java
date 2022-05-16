@@ -8,6 +8,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import co.edu.icesi.dev.uccareapp.transport.dao.SalesTaxRateDAO;
+import co.edu.icesi.dev.uccareapp.transport.dao.StateProvinceDAO;
 import co.edu.icesi.dev.uccareapp.transport.exception.ElementNotFoundException;
 import co.edu.icesi.dev.uccareapp.transport.exception.FailedValidationsException;
 import co.edu.icesi.dev.uccareapp.transport.model.person.Address;
@@ -20,15 +22,26 @@ import co.edu.icesi.dev.uccareapp.transport.repositories.StateprovinceRepository
 @Service
 public class SalestaxrateServiceImp implements SalestaxrateService{
 
-	private SalestaxrateRepository repo;
-
-	private StateprovinceRepository spRepo;
-
+//	private SalestaxrateRepository repo;
 	@Autowired
-	public SalestaxrateServiceImp(SalestaxrateRepository repo, StateprovinceRepository spRepo) {
+	private SalesTaxRateDAO strDAO;
+
+	//private StateprovinceRepository spRepo;
+	@Autowired
+	private StateProvinceDAO spDAO;
+
+//	@Autowired
+//	public SalestaxrateServiceImp(SalestaxrateRepository repo, StateprovinceRepository spRepo) {
+//		super();
+//		this.repo = repo;
+//		this.spRepo = spRepo;
+//	}
+	
+	@Autowired 
+	public SalestaxrateServiceImp(SalesTaxRateDAO strDAO, StateProvinceDAO spDAO) {
 		super();
-		this.repo = repo;
-		this.spRepo = spRepo;
+		this.strDAO = strDAO;
+		this.spDAO = spDAO;
 	}
 
 	@Override
@@ -55,32 +68,39 @@ public class SalestaxrateServiceImp implements SalestaxrateService{
 		return result;
 	}
 
+	
+
 	@Override
 	@Transactional
 	public Salestaxrate editSalestaxrate(Salestaxrate str, int stateprovinceid) throws FailedValidationsException, ElementNotFoundException{
 		Salestaxrate result  = null;
-		if(str.getSalestaxrateid()!=null) {
-			Optional<Salestaxrate> old = repo.findById(str.getSalestaxrateid());
-			if(old.isPresent()) {
-				result = saveSalestaxrate(str, stateprovinceid);
-			}
-		}
+		
+		
+//		if(str.getSalestaxrateid()!=null) {
+//			Optional<Salestaxrate> old = repo.findById(str.getSalestaxrateid());
+//			if(old.isPresent()) {
+//				result = saveSalestaxrate(str, stateprovinceid);
+//			}
+//		}
 		return result;
 	}
 
-	public Optional<Salestaxrate> findById(Integer id) {
-		return repo.findById(id);
+	public Salestaxrate findById(Integer id) {
+		//return repo.findById(id);
+		return strDAO.findById(id);
 	}
 
 	public Iterable<Salestaxrate> findAll() {
-		return repo.findAll();
+		//return repo.findAll();
+		return strDAO.findAll();
 	}
 
 	@Override
 	@Transactional
 	public void save(Salestaxrate str) {
 
-		repo.save(str);
+		//repo.save(str);
+		strDAO.save(str);
 
 	}
 
@@ -89,15 +109,17 @@ public class SalestaxrateServiceImp implements SalestaxrateService{
 
 		Salestaxrate actual = null;
 
-		if(tax.getSalestaxrateid() != null) {
-			Optional<Salestaxrate> optional = repo.findById(tax.getSalestaxrateid());
-			if(optional.isPresent()) {
-				tax.setStateprovince(spRepo.findById(stateprovinceid).get());
-				save(tax);
-				actual = findById(tax.getSalestaxrateid()).get();
-			}
-		}
+//		if(tax.getSalestaxrateid() != null) {
+//			Optional<Salestaxrate> optional = repo.findById(tax.getSalestaxrateid());
+//			if(optional.isPresent()) {
+//				tax.setStateprovince(spRepo.findById(stateprovinceid).get());
+//				save(tax);
+//				actual = findById(tax.getSalestaxrateid()).get();
+//			}
+//		}
 
+		tax.setStateprovince(spDAO.findById(stateprovinceid));
+		actual = strDAO.update(tax);
 
 		return actual;
 
