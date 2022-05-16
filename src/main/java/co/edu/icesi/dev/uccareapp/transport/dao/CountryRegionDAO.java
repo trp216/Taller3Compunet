@@ -11,8 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.icesi.dev.uccareapp.transport.model.person.Countryregion;
 
-
-
 @Repository
 @Transactional
 @Scope("singleton")

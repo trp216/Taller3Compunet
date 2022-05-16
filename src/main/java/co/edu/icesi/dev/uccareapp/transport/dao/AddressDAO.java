@@ -13,9 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.icesi.dev.uccareapp.transport.model.person.Address;
 
-
-
-
 @Repository
 @Transactional
 @Scope("singleton")

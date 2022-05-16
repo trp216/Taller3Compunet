@@ -52,13 +52,13 @@ public class SalesTaxRateDAO implements ISalesTaxRateDAO{
 	//Permita que las tasas impositivas de ventas puedan 
 	//buscarse por id del estadoprovincia
 	
-	public Salestaxrate getSalestaxrateByStateprovince(Integer id) {
-		String jpql = "SELECT str FROM Salestaxrate str WHERE str.stateprovince.stateprovinceid =:id";
-		Query query = entityManager.createQuery(jpql);
-		query.setParameter("id", id);
-		Salestaxrate salestaxrate = (Salestaxrate) query.getSingleResult();
-		return salestaxrate;
-	}
+//	public Salestaxrate getSalestaxrateByStateprovince(Integer id) {
+//		String jpql = "SELECT str FROM Salestaxrate str WHERE str.stateprovince.stateprovinceid =:id";
+//		Query query = entityManager.createQuery(jpql);
+//		query.setParameter("id", id);
+//		Salestaxrate salestaxrate = (Salestaxrate) query.getSingleResult();
+//		return salestaxrate;
+//	}
 	
 	public List<Salestaxrate> getSalestaxrateByStateprovince2(Integer id) {
 		String jpql = "SELECT str FROM Salestaxrate str WHERE str.stateprovince.stateprovinceid = '"+id+"'";
@@ -69,13 +69,13 @@ public class SalesTaxRateDAO implements ISalesTaxRateDAO{
 	//Permita que las tasas impositivas de ventas puedan 
 	//buscarse por  el nombre 
 	
-	public Salestaxrate getSalestaxrateByName(String name) {
-		String jpql = "SELECT str FROM Salestaxrate str WHERE str.name =:name";
-		Query query = entityManager.createQuery(jpql);
-		query.setParameter("name", name);
-		Salestaxrate salestaxrate = (Salestaxrate) query.getSingleResult();
-		return salestaxrate;
-	}
+//	public Salestaxrate getSalestaxrateByName(String name) {
+//		String jpql = "SELECT str FROM Salestaxrate str WHERE str.name =:name";
+//		Query query = entityManager.createQuery(jpql);
+//		query.setParameter("name", name);
+//		Salestaxrate salestaxrate = (Salestaxrate) query.getSingleResult();
+//		return salestaxrate;
+//	}
 	
 	public List<Salestaxrate> getSalestaxrateByName2(String name) {
 		String jpql = "SELECT str FROM Salestaxrate str WHERE str.name = '"+ name + "'";

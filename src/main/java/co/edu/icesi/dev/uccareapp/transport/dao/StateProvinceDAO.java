@@ -52,13 +52,13 @@ public class StateProvinceDAO implements IStateProvinceDAO{
 	
 	//Permita que los estados-provincia puedan buscarse 
 	//por el id del país-región
-	public Stateprovince getStateprovinceByCountryregion(Integer id) {
-		String jpql = "SELECT sp FROM Stateprovince sp WHERE sp.countryregion.countryregionid =:id";
-		Query query = entityManager.createQuery(jpql);
-		query.setParameter("id", id);
-		Stateprovince stateprovince = (Stateprovince) query.getSingleResult();
-		return stateprovince;
-	}
+//	public Stateprovince getStateprovinceByCountryregion(Integer id) {
+//		String jpql = "SELECT sp FROM Stateprovince sp WHERE sp.countryregion.countryregionid =:id";
+//		Query query = entityManager.createQuery(jpql);
+//		query.setParameter("id", id);
+//		Stateprovince stateprovince = (Stateprovince) query.getSingleResult();
+//		return stateprovince;
+//	}
 	
 	public List<Stateprovince> getStateprovinceByCountryregion2(Integer id) {
 		String jpql = "SELECT sp FROM Stateprovince sp WHERE sp.countryregion.countryregionid = '"+id+"'";
@@ -68,13 +68,13 @@ public class StateProvinceDAO implements IStateProvinceDAO{
 	
 	//Permita que los estados-provincia puedan buscarse 
 	//por el id del territorio
-	public Stateprovince getStateprovinceByTerritoryId(Integer id) {
-		String jpql = "SELECT sp FROM Stateprovince sp WHERE sp.territoryid =:id";
-		Query query = entityManager.createQuery(jpql);
-		query.setParameter("id", id);
-		Stateprovince stateprovince = (Stateprovince) query.getSingleResult();
-		return stateprovince;
-	}
+//	public Stateprovince getStateprovinceByTerritoryId(Integer id) {
+//		String jpql = "SELECT sp FROM Stateprovince sp WHERE sp.territoryid =:id";
+//		Query query = entityManager.createQuery(jpql);
+//		query.setParameter("id", id);
+//		Stateprovince stateprovince = (Stateprovince) query.getSingleResult();
+//		return stateprovince;
+//	}
 	
 	public List<Stateprovince> getStateprovinceByTerritoryId2(Integer id) {
 		String jpql = "SELECT sp FROM Stateprovince sp WHERE sp.territoryid =: '"+id+"'";
@@ -83,13 +83,13 @@ public class StateProvinceDAO implements IStateProvinceDAO{
 	
 	//Permita que los estados-provincia puedan buscarse 
 	//por el nombre 
-	public Stateprovince getStateprovinceByName(String name) {
-		String jpql = "SELECT sp FROM Stateprovince sp WHERE sp.name =:name";
-		Query query = entityManager.createQuery(jpql);
-		query.setParameter("name", name);
-		Stateprovince stateprovince = (Stateprovince) query.getSingleResult();
-		return stateprovince;
-	}
+//	public Stateprovince getStateprovinceByName(String name) {
+//		String jpql = "SELECT sp FROM Stateprovince sp WHERE sp.name =:name";
+//		Query query = entityManager.createQuery(jpql);
+//		query.setParameter("name", name);
+//		Stateprovince stateprovince = (Stateprovince) query.getSingleResult();
+//		return stateprovince;
+//	}
 	
 	public List<Stateprovince> getStateprovinceByName2(String name) {
 		String jpql = "SELECT sp FROM Stateprovince sp WHERE sp.name = '"+name+"'";

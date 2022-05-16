@@ -85,7 +85,7 @@ public class TestAddressDAO {
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	void findAddressByIdTest() {
 		addressDAO.save(address);
-		System.out.println(address.getAddressid()+"");
+		//System.out.println(address.getAddressid()+"");
 		
 		assertEquals(addressDAO.findById(address.getAddressid()),address);
 	}
