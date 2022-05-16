@@ -7,12 +7,14 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.icesi.dev.uccareapp.transport.model.person.Countryregion;
 
 
 
 @Repository
+@Transactional
 @Scope("singleton")
 public class CountryRegionDAO implements ICountryRegionDAO{
 

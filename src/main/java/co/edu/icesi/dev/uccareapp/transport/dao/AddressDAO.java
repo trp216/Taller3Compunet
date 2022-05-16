@@ -9,6 +9,7 @@ import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.icesi.dev.uccareapp.transport.model.person.Address;
 
@@ -16,30 +17,34 @@ import co.edu.icesi.dev.uccareapp.transport.model.person.Address;
 
 
 @Repository
+@Transactional
 @Scope("singleton")
 public class AddressDAO implements IAddressDAO{
 
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	@Autowired
-	public AddressDAO(EntityManager entityManager) {
-		this.entityManager = entityManager;
-	}
+//	@Autowired
+//	public AddressDAO(EntityManager entityManager) {
+//		this.entityManager = entityManager;
+//	}
 	
 	@Override
+	//@Transactional
 	public void save(Address entity) {
 		entityManager.persist(entity);		
 		
 	}
 
 	@Override
+	//@Transactional
 	public void update(Address entity) {
 		entityManager.merge(entity);		
 		
 	}
 
 	@Override
+	//@Transactional
 	public void delete(Address entity) {
 		entityManager.remove(entity);		
 		
@@ -59,28 +64,29 @@ public class AddressDAO implements IAddressDAO{
 	//Permita que los direcciones puedan 
 	//buscarse por la ciudad 
 	
-	public Address getAddresByCity(String city) {
-		String jpql = "SELECT a FROM Address a WHERE a.city =:city";
-		Query query = entityManager.createQuery(jpql);
-		query.setParameter("city", city);
-		Address address = (Address) query.getSingleResult();
-		return address;
-	}
+//	public List<Address> getAddressByCity(String city) {
+//		String jpql = "SELECT a FROM Address a WHERE a.city =:city";
+//		Query query = entityManager.createQuery(jpql);
+//		query.setParameter("city", city);
+////		Address address = (Address) query.getSingleResult();
+////		return address;
+//		return entityManager.createQuery(jpql,Address.class).getResultList();
+//	}
 	
-	public List<Address> getAddresByCity2(String city) {
+	public List<Address> getAddressByCity2(String city) {
 		String jpql = "SELECT a FROM Address a WHERE a.city = '" + city + "'";
 		return entityManager.createQuery(jpql,Address.class).getResultList();
 	}
 	
 	//Permita que los direcciones puedan 
 	//buscarse por el id del estado-provincia
-	public Address getAddressByStateprovince(Integer id) {
-		String jpql = "SELECT a FROM Address a WHERE a.stateprovince.stateprovinceid =:id";
-		Query query = entityManager.createQuery(jpql);
-		query.setParameter("id", id);
-		Address address = (Address) query.getSingleResult();
-		return address;
-	}
+//	public Address getAddressByStateprovince(Integer id) {
+//		String jpql = "SELECT a FROM Address a WHERE a.stateprovince.stateprovinceid =:id";
+//		Query query = entityManager.createQuery(jpql);
+//		query.setParameter("id", id);
+//		Address address = (Address) query.getSingleResult();
+//		return address;
+//	}
 	
 	public List<Address> getAddressByStateprovince2(Integer id) {
 		String jpql = "SELECT a FROM Address a WHERE a.stateprovince.stateprovinceid = '" +id +"'";
