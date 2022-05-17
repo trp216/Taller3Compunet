@@ -4,12 +4,15 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,10 +21,13 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.icesi.dev.uccareapp.transport.Application;
+import co.edu.icesi.dev.uccareapp.transport.dao.AddressDAO;
 import co.edu.icesi.dev.uccareapp.transport.dao.CountryRegionDAO;
 import co.edu.icesi.dev.uccareapp.transport.dao.StateProvinceDAO;
+import co.edu.icesi.dev.uccareapp.transport.model.person.Address;
 import co.edu.icesi.dev.uccareapp.transport.model.person.Countryregion;
 import co.edu.icesi.dev.uccareapp.transport.model.person.Stateprovince;
+import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesorderheader;
 import co.edu.icesi.dev.uccareapp.transport.model.sales.Salesterritory;
 import co.edu.icesi.dev.uccareapp.transport.repositories.SalesTerritoryRepository;
 
@@ -42,6 +48,13 @@ public class TestStateprovinceDAO {
 	private SalesTerritoryRepository stRepo;	
 	
 	private Salesterritory st;
+	
+	@Autowired
+	private AddressDAO addressDAO;
+	
+	private Address ad;
+	
+	private Salesorderheader soh;
 	
 	@Autowired
 	public TestStateprovinceDAO(SalesTerritoryRepository stRepo) {
@@ -74,6 +87,47 @@ public class TestStateprovinceDAO {
     	
     	sp.setTerritoryid(st.getTerritoryid());
     	spDAO.save(sp);
+	}
+	
+	void setupSpecialQuery() { 
+		sp = new Stateprovince();
+		sp.setName("Amazonas");
+		sp.setStateprovincecode("44756");
+		
+		ad = new Address();
+		ad.setAddressline1("Line 1 of address");
+		ad.setCity("Bucaramanga");
+		ad.setAddressline2("Line 2 of address");
+		ad.setPostalcode("A12366");
+		ad.setSpatiallocation("Comuna 20");
+		ad.setStateprovince(sp);
+		
+		addressDAO.save(ad);
+		
+		List<Address> ads = new ArrayList<Address>();
+		ads.add(ad);
+		sp.setAddresses(ads);
+		
+		
+		st = new Salesterritory();
+    	st.setName("Bogota distrito especial");
+    	
+    	   	
+		soh = new Salesorderheader();
+		st.setSalesorderheaders(new ArrayList<Salesorderheader>());
+		st.setTerritoryid(st.getTerritoryid());
+		st.getSalesorderheaders().add(soh);
+		
+		soh = new Salesorderheader();
+		st.setTerritoryid(st.getTerritoryid());
+		st.getSalesorderheaders().add(soh);
+		
+		stRepo.save(st);
+		
+		sp.setTerritoryid(st.getTerritoryid());
+		
+		spDAO.save(sp);
+		
 	}
 
 	@Test
@@ -175,6 +229,16 @@ public class TestStateprovinceDAO {
 		
 		List<Stateprovince> results = spDAO.getStateprovinceByTerritoryId2(st.getTerritoryid());
 		assertThat(results.size(), equalTo(2));
+	}
+	
+	
+	@Order(1)
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+	void getStateProvinceAndAddressesTest() {
+		setupSpecialQuery();
+		
+		List<Address> results = spDAO.getAddressesWithSalesorderheader();
+		assertTrue(results.get(0).getAddressid().equals(ad.getAddressid()));
 	}
 
 }
