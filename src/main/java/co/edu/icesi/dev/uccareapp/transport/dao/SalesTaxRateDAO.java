@@ -91,7 +91,8 @@ public class SalesTaxRateDAO implements ISalesTaxRateDAO{
 		public List<Object[]> getStateProvinceAndAddresses(Salesterritory st) {
 			
 			
-			String jpql = "SELECT sp.name, COUNT(a.addressid) "
+			String jpql = "SELECT sp, COUNT(a.addressid) "
+					//"SELECT sp.name, COUNT(a.addressid) "
 					+ "FROM Stateprovince sp, Address a "
 					+ "WHERE sp.stateprovinceid = a.stateprovince"
 					+ " AND sp.territoryid = " + st.getTerritoryid()   

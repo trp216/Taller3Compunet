@@ -193,9 +193,10 @@ public class TestSalesTaxRateDAO {
 			//System.out.println("CRIATURITA DE RUBI");
 		for (Object[] i : results) {
 			assertNotNull(i);
-			String name = i[0].toString();
-			System.out.println(">>>"+name);
-			assertEquals(name,"Valle del Cauca");
+			Stateprovince x = (Stateprovince)i[0];
+//			System.out.println(">>>"+name);
+//			assertEquals(name,"Valle del Cauca");
+			assertEquals(x.getName(),"Valle del Cauca");
 			//System.out.println("i en 0 "+ i[0]);
 			//assertEquals(i.getTerritoryid(),st.getTerritoryid());
 			//assertEquals(sp1.getStateprovinceid(), i.getStateprovinceid());
