@@ -12,6 +12,11 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 
+import co.edu.icesi.dev.uccareapp.transport.dao.AddressDAO;
+import co.edu.icesi.dev.uccareapp.transport.dao.CountryRegionDAO;
+import co.edu.icesi.dev.uccareapp.transport.dao.SalesTaxRateDAO;
+import co.edu.icesi.dev.uccareapp.transport.dao.SalesTerritoryDAO;
+import co.edu.icesi.dev.uccareapp.transport.dao.StateProvinceDAO;
 import co.edu.icesi.dev.uccareapp.transport.model.person.Address;
 import co.edu.icesi.dev.uccareapp.transport.model.person.Countryregion;
 import co.edu.icesi.dev.uccareapp.transport.model.person.Stateprovince;
@@ -36,13 +41,21 @@ public class Application {
 
 	@Bean
 
+//	public CommandLineRunner dummy(UserRepository userRepository
+//			,AddressRepository addressRepository, 
+//			StateprovinceRepository stateprovinceRepository 
+//			,SalestaxrateRepository strRepository
+//			,CountryregionRepository crRepository
+//			,SalesTerritoryRepository territoryRepository
+//			) 
+	
 	public CommandLineRunner dummy(UserRepository userRepository
-			,AddressRepository addressRepository, 
-			StateprovinceRepository stateprovinceRepository 
-			,SalestaxrateRepository strRepository
-			,CountryregionRepository crRepository
-			,SalesTerritoryRepository territoryRepository
-			) {
+			,AddressDAO addressRepository, 
+			StateProvinceDAO stateprovinceRepository 
+			,SalesTaxRateDAO strRepository
+			,CountryRegionDAO crRepository
+			,SalesTerritoryDAO territoryRepository
+			){
 
 		//para cerrar sesion:
 		//http://localhost:8081/logout
