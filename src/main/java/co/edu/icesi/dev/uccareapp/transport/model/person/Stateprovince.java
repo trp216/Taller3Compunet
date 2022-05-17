@@ -16,6 +16,8 @@ import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import co.edu.icesi.dev.uccareapp.transport.validation.Miracle;
+
 /**
  * The persistent class for the stateprovince database table.
  *
@@ -34,12 +36,12 @@ public class Stateprovince implements Serializable {
 
 	private Timestamp modifieddate;
 
-	@Size(min=5)
+	@Size(min=5,groups=Miracle.class)
 	private String name;
 
 	private Integer rowguid;
 
-	@Size(min=5,max=5)
+	@Size(min=5,max=5,groups=Miracle.class)
 	@Pattern(regexp="^(0|[1-9][0-9]*)$")
 	private String stateprovincecode;
 
