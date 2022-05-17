@@ -78,7 +78,8 @@ public class SalestaxrateServiceTest {
 			s.setSalestaxrateid(0103);
 			s.setName("Impuesto");
 			s.setRowguid(3);
-			s.setStateprovinceid(123);
+			s.setStateprovince(new Stateprovince());
+			s.getStateprovince().setStateprovinceid(123);
 			s.setTaxrate(new BigDecimal(0.888));
 			s.setTaxtype(1);
 
@@ -92,7 +93,7 @@ public class SalestaxrateServiceTest {
 					() -> assertTrue(saved.getSalestaxrateid()==0103),
 					() -> assertEquals(saved.getName(),"Impuesto"),
 					() -> assertTrue(saved.getRowguid()==3),
-					() -> assertTrue(saved.getStateprovinceid()==123),
+					() -> assertTrue(saved.getStateprovince().getStateprovinceid()==123),
 					() -> assertTrue(saved.getTaxrate().compareTo(new BigDecimal(0.888))==0),
 					() -> assertTrue(saved.getTaxtype()==1)
 
@@ -107,7 +108,8 @@ public class SalestaxrateServiceTest {
 			s.setSalestaxrateid(0104);
 			s.setName("Impuesto");
 			s.setRowguid(3);
-			s.setStateprovinceid(123);
+			s.setStateprovince(new Stateprovince());
+			s.getStateprovince().setStateprovinceid(123);
 			s.setTaxrate(new BigDecimal(0.888));
 			s.setTaxtype(1);
 
@@ -125,7 +127,8 @@ public class SalestaxrateServiceTest {
 			s.setSalestaxrateid(0104);
 			s.setName("IVA");
 			s.setRowguid(3);
-			s.setStateprovinceid(123);
+			s.setStateprovince(new Stateprovince());
+			s.getStateprovince().setStateprovinceid(123);
 			s.setTaxrate(new BigDecimal(0.888));
 			s.setTaxtype(1);
 
@@ -143,7 +146,8 @@ public class SalestaxrateServiceTest {
 			s.setSalestaxrateid(0104);
 			s.setName("Impuesto");
 			s.setRowguid(3);
-			s.setStateprovinceid(123);
+			s.setStateprovince(new Stateprovince());
+			s.getStateprovince().setStateprovinceid(123);
 			s.setTaxrate(new BigDecimal(-0.888));
 			s.setTaxtype(1);
 
@@ -175,7 +179,8 @@ public class SalestaxrateServiceTest {
 			str.setSalestaxrateid(0101);
 			str.setName("Impuesto");
 			str.setRowguid(2);
-			str.setStateprovinceid(124);
+			str.setStateprovince(new Stateprovince());
+			str.getStateprovince().setStateprovinceid(124);
 			str.setTaxrate(new BigDecimal(0.67));
 			str.setTaxtype(2);
 

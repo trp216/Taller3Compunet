@@ -216,7 +216,8 @@ public class IntegrationTests {
 			s.setName("Impuesto");
 			s.setSalestaxrateid(1);
 			s.setRowguid(3);
-			s.setStateprovinceid(1);
+			s.setStateprovince(new Stateprovince());
+			s.getStateprovince().setStateprovinceid(1);
 			s.setTaxrate(new BigDecimal(0.888));
 			s.setTaxtype(1);
 
@@ -227,7 +228,7 @@ public class IntegrationTests {
 			assertAll(
 					() -> assertTrue(saved.getName().equals("Impuesto")),
 					() -> assertTrue(saved.getRowguid()==3),
-					() -> assertTrue(saved.getStateprovinceid()==1),
+					() -> assertTrue(saved.getStateprovince().getStateprovinceid()==1),
 					() -> assertTrue(saved.getTaxrate().compareTo(new BigDecimal(0.888))==0),
 					() -> assertTrue(saved.getTaxtype()==1)
 
@@ -241,7 +242,8 @@ public class IntegrationTests {
 			Salestaxrate s = new Salestaxrate();
 			s.setName("Beb");
 			s.setRowguid(3);
-			s.setStateprovinceid(1);
+			s.setStateprovince(new Stateprovince());
+			s.getStateprovince().setStateprovinceid(1);
 			s.setTaxrate(new BigDecimal(0.78));
 			s.setTaxtype(1);
 
@@ -256,7 +258,8 @@ public class IntegrationTests {
 			Salestaxrate s = new Salestaxrate();
 			s.setName("Bebida Alcoholica");
 			s.setRowguid(3);
-			s.setStateprovinceid(1);
+			s.setStateprovince(new Stateprovince());
+			s.getStateprovince().setStateprovinceid(1);
 			s.setTaxrate(new BigDecimal(-0.78));
 			s.setTaxtype(1);
 
@@ -271,7 +274,8 @@ public class IntegrationTests {
 			Salestaxrate s = new Salestaxrate();
 			s.setName("Bebida Alcoholica");
 			s.setRowguid(3);
-			s.setStateprovinceid(2);
+			s.setStateprovince(new Stateprovince());
+			s.getStateprovince().setStateprovinceid(2);
 			s.setTaxrate(new BigDecimal(0.78));
 			s.setTaxtype(1);
 
@@ -299,7 +303,7 @@ public class IntegrationTests {
 			assertAll(
 					() -> assertTrue(saved.getName().equals("Azucar")),
 					() -> assertTrue(saved.getRowguid()==3),
-					() -> assertTrue(saved.getStateprovinceid()==1),
+					() -> assertTrue(saved.getStateprovince().getStateprovinceid()==1),
 					() -> assertTrue(saved.getTaxrate().compareTo(new BigDecimal(0.566))==0),
 					() -> assertTrue(saved.getTaxtype()==2)
 
