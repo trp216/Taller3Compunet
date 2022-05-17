@@ -106,8 +106,8 @@ public class StateProvinceDAO implements IStateProvinceDAO{
 		String jpql = "SELECT ad "
 				+ "FROM Address ad, Salesterritory st, Salesorderheader soh, Stateprovince sp "
 				+ "WHERE sp.territoryid = st.territoryid "
-				+ "AND sp.stateprovinceid = ad.stateprovince"
-				+ "AND soh.salesterritory = st.territoryid"
+				+ "AND sp.stateprovinceid = ad.stateprovince "
+				+ "AND soh.salesterritory = st.territoryid "
 				+ "AND (COUNT(soh.salesorderid))>=2";
 
 		return entityManager.createQuery(jpql,Address.class).getResultList();
